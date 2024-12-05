@@ -1,4 +1,5 @@
 ﻿using HistoricalStore.Data.Models.UserModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace HistoricalStore.Data.Models.OrderModels
 {
@@ -6,12 +7,10 @@ namespace HistoricalStore.Data.Models.OrderModels
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; } = null!;
         public DateTime OrderDate { get; set; } = DateTime.Now;
-        public decimal TotalAmount { get; set; }
-        public int StatusId { get; set; }
-        public OrderStatus Status { get; set; } = null!;
+        [Precision(18, 2)]
+        public decimal TotalPrice { get; set; }
+        public int OrderStatusId { get; set; }
         public List<OrderItem> OrderItems { get; set; } = [];
     }
-
 }

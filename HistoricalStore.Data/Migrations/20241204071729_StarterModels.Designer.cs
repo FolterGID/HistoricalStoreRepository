@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HistoricalStore.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241203090437_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241204071729_StarterModels")]
+    partial class StarterModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace HistoricalStore.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HistoricalPeriodProduct", b =>
+                {
+                    b.Property<int>("HistoricalPeriodsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("HistoricalPeriodsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("HistoricalPeriodProduct");
+                });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.OrderModels.Order", b =>
                 {
@@ -36,10 +51,11 @@ namespace HistoricalStore.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
@@ -47,9 +63,7 @@ namespace HistoricalStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrderStatusId");
 
                     b.ToTable("Orders");
                 });
@@ -70,9 +84,6 @@ namespace HistoricalStore.Data.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -150,6 +161,28 @@ namespace HistoricalStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Оружие"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Одежда"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Книги"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Сувениры"
+                        });
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.HistoricalPeriod", b =>
@@ -167,6 +200,28 @@ namespace HistoricalStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HistoricalPeriods");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Античность"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Средневековье"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Ренессанс"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Новое время"
+                        });
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.Material", b =>
@@ -184,36 +239,73 @@ namespace HistoricalStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Materials");
-                });
 
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.ProductHistoricalPeriod", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HistoricalPeriodId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "HistoricalPeriodId");
-
-                    b.HasIndex("HistoricalPeriodId");
-
-                    b.ToTable("ProductHistoricalPeriods");
-                });
-
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.ProductMaterial", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaterialId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "MaterialId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.ToTable("ProductMaterials");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Дерево (дуб)"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Дерево (кедр)"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Сталь, закаленная"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Железо, кованое"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Золото, 585 проба"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Серебро, 925 проба"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Кожа (натуральная, телячья)"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Кожа (замша, натуральная)"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Ткань (лен, грубый)"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Ткань (шелк, китайский)"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Керамика (майолика)"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Керамика (фарфор, европейский)"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Мрамор, каррарский"
+                        });
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.UserModels.Role", b =>
@@ -231,6 +323,28 @@ namespace HistoricalStore.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Администратор"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Менеджер"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Клиент"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Гость"
+                        });
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.UserModels.User", b =>
@@ -264,6 +378,21 @@ namespace HistoricalStore.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MaterialProduct", b =>
+                {
+                    b.Property<int>("MaterialsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaterialsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("MaterialProduct");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Accessory", b =>
@@ -333,23 +462,28 @@ namespace HistoricalStore.Data.Migrations
                     b.ToTable("Weapons", (string)null);
                 });
 
+            modelBuilder.Entity("HistoricalPeriodProduct", b =>
+                {
+                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.HistoricalPeriod", null)
+                        .WithMany()
+                        .HasForeignKey("HistoricalPeriodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HistoricalStore.Data.Models.ProductModels.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("HistoricalStore.Data.Models.OrderModels.Order", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.OrderModels.OrderStatus", "Status")
+                    b.HasOne("HistoricalStore.Data.Models.OrderModels.OrderStatus", null)
                         .WithMany("Orders")
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HistoricalStore.Data.Models.UserModels.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Status");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.OrderModels.OrderItem", b =>
@@ -373,62 +507,35 @@ namespace HistoricalStore.Data.Migrations
 
             modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Product", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Category", "Category")
+                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.ProductHistoricalPeriod", b =>
-                {
-                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.HistoricalPeriod", "HistoricalPeriod")
-                        .WithMany("ProductHistoricalPeriods")
-                        .HasForeignKey("HistoricalPeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HistoricalStore.Data.Models.ProductModels.Product", "Product")
-                        .WithMany("ProductHistoricalPeriods")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HistoricalPeriod");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.ProductMaterial", b =>
-                {
-                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Material", "Material")
-                        .WithMany("ProductMaterials")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HistoricalStore.Data.Models.ProductModels.Product", "Product")
-                        .WithMany("ProductMaterials")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Material");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.UserModels.User", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.UserModels.Role", "Role")
+                    b.HasOne("HistoricalStore.Data.Models.UserModels.Role", null)
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Role");
+            modelBuilder.Entity("MaterialProduct", b =>
+                {
+                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Material", null)
+                        .WithMany()
+                        .HasForeignKey("MaterialsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HistoricalStore.Data.Models.ProductModels.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Accessory", b =>
@@ -477,26 +584,9 @@ namespace HistoricalStore.Data.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Product", b =>
-                {
-                    b.Navigation("ProductHistoricalPeriods");
-
-                    b.Navigation("ProductMaterials");
-                });
-
             modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.HistoricalPeriod", b =>
-                {
-                    b.Navigation("ProductHistoricalPeriods");
-                });
-
-            modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.Material", b =>
-                {
-                    b.Navigation("ProductMaterials");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.UserModels.Role", b =>

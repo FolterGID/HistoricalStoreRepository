@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HistoricalStore.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20241203090437_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241203194641_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace HistoricalStore.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("OrderStatusId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
@@ -47,9 +47,7 @@ namespace HistoricalStore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrderStatusId");
 
                     b.ToTable("Orders");
                 });
@@ -70,9 +68,6 @@ namespace HistoricalStore.Data.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -335,21 +330,11 @@ namespace HistoricalStore.Data.Migrations
 
             modelBuilder.Entity("HistoricalStore.Data.Models.OrderModels.Order", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.OrderModels.OrderStatus", "Status")
+                    b.HasOne("HistoricalStore.Data.Models.OrderModels.OrderStatus", null)
                         .WithMany("Orders")
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("OrderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HistoricalStore.Data.Models.UserModels.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Status");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.OrderModels.OrderItem", b =>
@@ -373,13 +358,11 @@ namespace HistoricalStore.Data.Migrations
 
             modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Product", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Category", "Category")
+                    b.HasOne("HistoricalStore.Data.Models.SupplyModels.Category", null)
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.SupplyModels.ProductHistoricalPeriod", b =>
@@ -422,13 +405,11 @@ namespace HistoricalStore.Data.Migrations
 
             modelBuilder.Entity("HistoricalStore.Data.Models.UserModels.User", b =>
                 {
-                    b.HasOne("HistoricalStore.Data.Models.UserModels.Role", "Role")
+                    b.HasOne("HistoricalStore.Data.Models.UserModels.Role", null)
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HistoricalStore.Data.Models.ProductModels.Accessory", b =>

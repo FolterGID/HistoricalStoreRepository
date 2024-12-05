@@ -1,4 +1,5 @@
 using HistoricalStore.Data.DatabaseContext;
+using HistoricalStore.Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace HistoricalStore.Api
@@ -14,14 +15,9 @@ namespace HistoricalStore.Api
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
 
             var app = builder.Build();
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<StoreContext>();
-                dbContext.Database.Migrate();
-            }
 
             // Configure the HTTP request pipeline.
 

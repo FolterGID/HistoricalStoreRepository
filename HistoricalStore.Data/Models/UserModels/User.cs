@@ -1,4 +1,6 @@
-﻿namespace HistoricalStore.Data.Models.UserModels
+﻿using HistoricalStore.Data.Models.OrderModels;
+
+namespace HistoricalStore.Data.Models.UserModels
 {
     public class User
     {
@@ -7,8 +9,8 @@
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public int RoleId { get; set; }
-        public Role Role { get; set; } = null!;
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public List<Order> Orders { get; set; } = [];
     }
 
 }
