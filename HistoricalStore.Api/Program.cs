@@ -17,14 +17,26 @@ namespace HistoricalStore.Api
             builder.Services.AddControllers();
             builder.Services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
 
+            builder.Services.AddRazorPages();
+            builder.Services.AddServerSideBlazor();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowBlazorClient", policy => 
+                    policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
             var app = builder.Build();
+
+            app.UseCors("AllowBlazorClient");
 
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
+            app.UseStaticFiles();
 
             app.MapControllers();
 

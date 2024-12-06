@@ -24,8 +24,6 @@ namespace HistoricalStore.Data.DatabaseContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
-
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Materials)
                 .WithMany(m => m.Products);

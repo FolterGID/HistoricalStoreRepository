@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "HistoricalStore.Api\\HistoricalStore.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "HistoricalStore.Client\\HistoricalStore.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

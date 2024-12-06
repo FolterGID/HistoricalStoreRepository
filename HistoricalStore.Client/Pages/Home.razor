@@ -1,0 +1,33 @@
+﻿@page "/weapon"
+@using HistoricalStore.Data.Models.ProductModels
+@inject HttpClient HttpClient
+
+<h3>Weapons List</h3>
+
+@if (weapons == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var weapon in weapons)
+        {
+            <li>
+                <img src="@weapon.ImageUrl" alt="@weapon.Name" width="100" />
+                <p>@weapon.Name</p>
+                <p>Price: @weapon.Price.ToString("C")</p>
+                <p>@weapon.Description</p>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Weapon>? weapons;
+
+    protected override async Task OnInitializedAsync()
+    {
+        weapons = await HttpClient.GetFromJsonAsync<List<Weapon>>("/api/weapon");
+    }
+}
