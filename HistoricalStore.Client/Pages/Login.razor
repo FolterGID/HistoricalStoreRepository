@@ -1,0 +1,50 @@
+﻿@page "/authentication/login"
+@using Blazored.LocalStorage
+@using HistoricalStore.Data.Models.DtoModels
+@layout AuthenticationLayout
+
+<h2>Login</h2>
+<EditForm Model="LoginModel" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <InputText id="Email" class="form-control" @bind-Value="LoginModel.Email" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <InputText id="Password" class="form-control" type="password" @bind-Value="LoginModel.Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+</EditForm>
+
+@code {
+    private LoginDto LoginModel = new();
+
+    private async Task HandleLogin()
+    {
+        // Отправляем запрос на API
+        var response = await Http.PostAsJsonAsync("api/auth/login", LoginModel);
+        if (response.IsSuccessStatusCode)
+        {
+            var token = await response.Content.ReadAsStringAsync();
+            // Сохраняем токен (например, в LocalStorage)
+            await LocalStorage.SetItemAsync("authToken", token);
+
+            // Перенаправление на Home
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // Обработайте ошибки
+            Console.WriteLine("Login failed");
+        }
+    }
+
+    [Inject] private HttpClient Http { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private ILocalStorageService LocalStorage { get; set; }
+}

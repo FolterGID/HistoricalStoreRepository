@@ -1,0 +1,51 @@
+﻿@page "/authentication/register"
+@using HistoricalStore.Data.Models.DtoModels
+@layout AuthenticationLayout
+
+<h2>Register</h2>
+<EditForm Model="RegistrationModel" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <InputText id="Name" class="form-control" @bind-Value="RegistrationModel.UserName" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <InputText id="Email" class="form-control" type="email" @bind-Value="RegistrationModel.Email" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <InputText id="Password" class="form-control" type="password" @bind-Value="RegistrationModel.Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Register</button>
+</EditForm>
+
+@code {
+    private RegisterDto RegistrationModel = new();
+
+    private async Task HandleRegistration()
+    {
+        // Здесь отправляйте запрос на API для регистрации
+        var response = await Http.PostAsJsonAsync("api/auth/register", RegistrationModel);
+        if (response.IsSuccessStatusCode)
+        {
+            // Перенаправление на Home
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // Обработайте ошибки
+            var errors = await response.Content.ReadFromJsonAsync<List<string>>();
+            foreach (var error in errors)
+                Console.WriteLine(error); // Или вывод ошибок в UI
+        }
+    }
+
+    [Inject] private HttpClient Http { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+}

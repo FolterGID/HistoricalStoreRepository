@@ -1,9 +1,9 @@
-﻿namespace HistoricalStore.Data.Models.UserModels
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace HistoricalStore.Data.Models.UserModels
 {
-    public class Role
+    public class Role : IdentityRole
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
         public List<User> Users { get; set; } = [];
     }
 }

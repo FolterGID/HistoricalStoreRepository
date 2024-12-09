@@ -1,33 +1,14 @@
-﻿@page "/weapon"
-@using HistoricalStore.Data.Models.ProductModels
-@inject HttpClient HttpClient
+﻿@page "/"
+@inherits LayoutComponentBase
 
-<h3>Weapons List</h3>
+<div class="container text-center mt-5">
+    <h1 class="mb-4">Добро пожаловать в Исторический Магазин!</h1>
+    <p class="mb-5">
+        Исследуйте нашу коллекцию реплик древнего оружия, доспехов, книг и сувениров!
+    </p>
 
-@if (weapons == null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <ul>
-        @foreach (var weapon in weapons)
-        {
-            <li>
-                <img src="@weapon.ImageUrl" alt="@weapon.Name" width="100" />
-                <p>@weapon.Name</p>
-                <p>Price: @weapon.Price.ToString("C")</p>
-                <p>@weapon.Description</p>
-            </li>
-        }
-    </ul>
-}
-
-@code {
-    private List<Weapon>? weapons;
-
-    protected override async Task OnInitializedAsync()
-    {
-        weapons = await HttpClient.GetFromJsonAsync<List<Weapon>>("/api/weapon");
-    }
-}
+    <div>
+        <NavLink class="btn btn-primary btn-lg me-3" href="authentication/login">Войти</NavLink>
+        <NavLink class="btn btn-outline-primary btn-lg" href="authentication/register">Регистрация</NavLink>
+    </div>
+</div>

@@ -35,7 +35,7 @@ namespace HistoricalStore.Api.Controllers
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] User user)
         {
             if (id != user.Id || !ModelState.IsValid) return BadRequest();
             await _crudService.UpdateItem(user);

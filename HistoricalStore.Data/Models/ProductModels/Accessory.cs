@@ -2,7 +2,7 @@
 {
     public class Accessory : Product
     {
-        public string AccessoryType { get; set; } = string.Empty;
+        public int AccessoryTypeId { get; set; }
     }
 
 }

@@ -10,6 +10,7 @@ namespace HistoricalStore.Data.Models.ProductModels
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
         public int CategoryId { get; set; }
+        public bool IsAvailable { get; set; }
         public List<Material> Materials { get; set; } = [];
         public List<HistoricalPeriod> HistoricalPeriods { get; set; } = [];
     }
